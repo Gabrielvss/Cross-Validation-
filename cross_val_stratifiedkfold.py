@@ -24,9 +24,10 @@ import numpy as np
 
 b= np.zeros(shape=(previsores.shape[0], 1))
 
-#import cross validation with stratifiedkfold
+
+#import cross validation with stratifiedkfold and other functions
 from sklearn.model_selection import StratifiedKFold
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 kfold = StratifiedKFold(n_splits = 10, shuffle = True, random_state = 0)
 resultados = []
 
@@ -40,9 +41,11 @@ for indice_treinamento, indice_teste in kfold.split(previsores,
     classificador.fit(previsores[indice_treinamento],classe[indice_treinamento])
     previsoes = classificador.predict(previsores[indice_teste])
     precisao = accuracy_score(classe[indice_teste], previsoes)
+    matrizes.append(confusion_matrix(classe[indice_teste], previsoes))
     resultados.append(precisao)
 
 #mean of results of each splits
+matriz_final = np.mean(matrizes, axis = 0) 
 resultados = np.asarray(resultados)
 resultados.mean()
 
