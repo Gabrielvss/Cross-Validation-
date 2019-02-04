@@ -1,3 +1,4 @@
+#preprocessing for data base
 import pandas as pd
 
 base = pd.read_csv('credit-data.csv')
@@ -15,10 +16,12 @@ from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 previsores = scaler.fit_transform(previsores)
 
+#import the function
 from sklearn.model_selection import cross_val_score
 from sklearn.naive_bayes import GaussianNB
+ 
+#training and results
 classificador = GaussianNB()
-
 resultado = cross_val_score(classificador, previsores, classe, cv = 10) 
 resultado.mean()
 resultado.std()
